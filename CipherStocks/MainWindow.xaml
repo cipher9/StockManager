@@ -81,7 +81,7 @@
             <Label Content="Stock Symbol" Grid.Row="1" Grid.Column="0" Style="{StaticResource LabelTemplate}" />
             
             <!-- Row 2 -->
-            <TextBox Name="StockTBx" Text="AAPL" Margin="0 0 0 10" Grid.Row="2" TabIndex="0" 
+            <TextBox Name="StockTBx" Margin="0 0 0 10" Grid.Row="2" TabIndex="0" 
                      Tag="Stock Symbol" KeyDown="StockTBx_KeyDown" />
 
             <!-- Row 3 -->
