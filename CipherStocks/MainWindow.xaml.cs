@@ -42,18 +42,38 @@ namespace CipherStocks
             }
         }
 
+        public static string FormatNumber(decimal n)
+        {
+            if(n >= 1000000000000)
+                return (n/1000000000000).ToString("C2") + "T";
+            if(n >= 1000000000)
+                return (n/1000000000).ToString("C2") + "B";
+            if(n >= 1000000)
+                return (n/1000000).ToString("C2") + "M";
+            return n.ToString("C2");
+        }
+
         private async void StockData(string stock)
         {
             var securities = await Yahoo.Symbols(stock).QueryAsync();
-            var company = securities[stock];
-            
-            ChangeColor(company.RegularMarketChangePercent);
+            Security company;
+            try
+            {
+                company = securities[stock];
+                ChangeColor(company.RegularMarketChangePercent);
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("The stock entered was not found");
+                return;
+            }
 
             // Rows 4-5
             StockNameTB.Text = company.ShortName;
             StockPriceTB.Text = company.RegularMarketPrice.ToString("C2");
             PriceChangeTB.Text = company.RegularMarketChange.ToString("C2");
-            PriceChangePercentTB.Text = company.RegularMarketChangePercent.ToString("N2");
+            PriceChangePercentTB.Text = company.RegularMarketChangePercent.ToString("N2") + '%';
 
             // Column 0
             OpenTB.Text = String.Format("{0:n}", company[Field.RegularMarketOpen].ToString("C2"));
@@ -61,12 +81,20 @@ namespace CipherStocks
             TodayLowTB.Text = company[Field.RegularMarketDayLow].ToString("C2");
             FTWeekHighTB.Text = company[Field.FiftyTwoWeekHigh].ToString("C2");
             FTWeekLowTB.Text = company[Field.FiftyTwoWeekLow].ToString("C2");
-            
 
             // Column 2
             VolumeTB.Text = company[Field.RegularMarketVolume].ToString("N0");
-            AverageVolTB.Text = company[Field.AverageDailyVolume3Month].ToString("N0");
-            MarketCapTB.Text = company[Field.MarketCap].ToString("C0");
+            try
+            {
+                AverageVolTB.Text = company[Field.AverageDailyVolume3Month].ToString("N0");
+            }
+            catch(KeyNotFoundException)
+            {
+                AverageVolTB.Text = "N/A";
+            }
+
+            MarketCapTB.Text = FormatNumber(company[Field.MarketCap]);
+
             try
             {
                 PERatioTB.Text = company[Field.TrailingPE].ToString("N0");
@@ -78,7 +106,7 @@ namespace CipherStocks
 
             try
             {
-                DivTB.Text = company[Field.TrailingAnnualDividendYield].ToString();
+                DivTB.Text = company[Field.TrailingAnnualDividendYield].ToString("N2");
             }
             catch(KeyNotFoundException)
             {
@@ -115,6 +143,7 @@ namespace CipherStocks
             
 
             double pe, dividendRate;
+            string dividendDate;
             try
             {
                 pe = company[Field.TrailingPE];
@@ -133,6 +162,15 @@ namespace CipherStocks
                 dividendRate = 0;
             }
 
+            try
+            {
+                dividendDate = DateTimeOffset.FromUnixTimeSeconds(company.DividendDate).ToString("MM/dd/yyyy");
+            }
+            catch (KeyNotFoundException)
+            {
+                dividendDate = "N/A";
+            }
+
             StockListDG.Items.Add(new Stock()
             {
                 Symbol = company.Symbol,
@@ -141,7 +179,8 @@ namespace CipherStocks
                 TrailingPE = Math.Round(pe,2),
                 RegularMarketVolume = company.RegularMarketVolume,
                 RegularMarketChangePercent = Math.Round(company.RegularMarketChangePercent,2),
-                TrailingAnnualDividendYield = Math.Round(dividendRate,2)
+                TrailingAnnualDividendYield = Math.Round(dividendRate,2),
+                DividendDate = dividendDate
             });
         }
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -149,7 +188,9 @@ namespace CipherStocks
             string stock = StockTBx.Text.ToUpper();
             // Prevent duplicates in StockListDG
             if(StockList.Contains(stock))
+            {
                 return;
+            }
             StockList.Add(stock);
             GetData(stock);
         }

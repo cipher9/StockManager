@@ -13,5 +13,6 @@ namespace CipherStocks
         public long RegularMarketVolume { get; set; }
         public double RegularMarketChangePercent { get; set; }
         public double TrailingAnnualDividendYield { get; set; }
+        public string DividendDate { get; set; }
     }
 }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CipherStocks"
         FocusManager.FocusedElement="{Binding ElementName=StockTBx}"
         mc:Ignorable="d"
-        Title="Cipher Stock" Height="550" Width="400"
+        Title="Cipher Stock" Height="570" Width="430"
         >
     <Window.Resources>
         <Style TargetType="{x:Type Control}" x:Key="LabelTemplate">
@@ -26,7 +26,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Name="border" Background="{TemplateBinding Background}" BorderThickness="0" CornerRadius="10">
+                        <Border Name="border" Background="{TemplateBinding Background}" BorderThickness="0" CornerRadius="15">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -86,7 +86,7 @@
 
             <!-- Row 3 -->
             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
-                <Button x:Name="SearchButton" Content="🔍"  Margin="0,0,10,0" Height="20" Width="50" HorizontalAlignment="Left"
+                <Button x:Name="SearchButton" Content="🔍"  Margin="0,0,10,0" Height="25" Width="50" HorizontalAlignment="Left"
                     Grid.Row="3" Grid.Column="0" TabIndex="1" Click="SearchButton_Click" Style="{StaticResource RoundCorner}" />
                 <Button x:Name="AddButton" Content="➕" Grid.Row="3" Grid.Column="0" Width="50" TabIndex="2" 
                         Style="{StaticResource RoundCorner}" Click="AddButton_Click" />
@@ -130,19 +130,21 @@
             <TextBlock x:Name="DivTB" Grid.Row="15" Grid.Column="2" Style="{StaticResource TBTemplate}" />
             
             <!-- Row 16 -->
-            <StackPanel Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Vertical" ScrollViewer.CanContentScroll="True" 
+            <StackPanel Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="5" Orientation="Vertical" ScrollViewer.CanContentScroll="True" 
                         ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-            <DataGrid x:Name="StockListDG" Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Symbol" Binding="{Binding Symbol}" />
-                    <DataGridTextColumn Header="Company" Binding="{Binding Company}" />
-                    <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
-                    <DataGridTextColumn Header="P/E Ratio" Binding="{Binding TrailingPE}" />
-                    <DataGridTextColumn Header="Volume" Binding="{Binding RegularMarketVolume, StringFormat={}{0:N0}}" />
-                    <DataGridTextColumn Header="Gain %" Binding="{Binding RegularMarketChangePercent}" />
-                    <DataGridTextColumn Header="Dividend" Binding="{Binding TrailingAnnualDividendYield}" />
-                </DataGrid.Columns>
-            </DataGrid>
+                <DataGrid x:Name="StockListDG" Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="5" 
+                          HorizontalAlignment="Left" AlternatingRowBackground="AliceBlue" Height="163" Width="411">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Symbol" Binding="{Binding Symbol}" />
+                        <DataGridTextColumn Header="Company" Binding="{Binding Company}" />
+                        <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
+                        <DataGridTextColumn Header="P/E Ratio" Binding="{Binding TrailingPE}" />
+                        <DataGridTextColumn Header="Volume" Binding="{Binding RegularMarketVolume, StringFormat={}{0:N0}}" />
+                        <DataGridTextColumn Header="Gain %" Binding="{Binding RegularMarketChangePercent}" />
+                        <DataGridTextColumn Header="Dividend" Binding="{Binding TrailingAnnualDividendYield}" />
+                        <DataGridTextColumn Header="Dividend Date" Binding="{Binding DividendDate}" />
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
         </Grid>
     </Border>
