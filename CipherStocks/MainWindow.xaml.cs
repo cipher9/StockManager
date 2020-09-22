@@ -42,15 +42,28 @@ namespace CipherStocks
             }
         }
 
-        public static string FormatNumber(decimal n)
+        public static string FormatNumber(decimal number, bool isCurrency)
         {
-            if(n >= 1000000000000)
-                return (n/1000000000000).ToString("C2") + "T";
-            if(n >= 1000000000)
-                return (n/1000000000).ToString("C2") + "B";
-            if(n >= 1000000)
-                return (n/1000000).ToString("C2") + "M";
-            return n.ToString("C2");
+            if(isCurrency == true)
+            {
+                if(number >= 1000000000000)
+                    return (number/1000000000000).ToString("C2") + "T";
+                if(number >= 1000000000)
+                    return (number/1000000000).ToString("C2") + "B";
+                if(number >= 1000000)
+                    return (number/1000000).ToString("C2") + "M";
+                return number.ToString("C2");
+            }
+            else
+            {
+                if(number >= 1000000000000)
+                    return (number/1000000000000).ToString("N0") + "T";
+                if(number >= 1000000000)
+                    return (number/1000000000).ToString("N0") + "B";
+                if(number >= 1000000)
+                    return (number/1000000).ToString("N0") + "M";
+                return number.ToString("N0");
+            }
         }
 
         private async void StockData(string stock)
@@ -83,17 +96,17 @@ namespace CipherStocks
             FTWeekLowTB.Text = company[Field.FiftyTwoWeekLow].ToString("C2");
 
             // Column 2
-            VolumeTB.Text = company[Field.RegularMarketVolume].ToString("N0");
+            VolumeTB.Text = FormatNumber(company[Field.RegularMarketVolume], false);
             try
             {
-                AverageVolTB.Text = company[Field.AverageDailyVolume3Month].ToString("N0");
+                AverageVolTB.Text = FormatNumber(company[Field.AverageDailyVolume10Day], false);
             }
             catch(KeyNotFoundException)
             {
                 AverageVolTB.Text = "N/A";
             }
 
-            MarketCapTB.Text = FormatNumber(company[Field.MarketCap]);
+            MarketCapTB.Text = FormatNumber(company[Field.MarketCap], true);
 
             try
             {
