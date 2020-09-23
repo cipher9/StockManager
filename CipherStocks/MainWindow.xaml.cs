@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using YahooFinanceApi;
 
 namespace CipherStocks
@@ -25,7 +26,22 @@ namespace CipherStocks
         public MainWindow()
         {
             InitializeComponent();
-            StockListDG.IsReadOnly = true;
+            StartClock();
+        }
+
+        private void StartClock()
+        {
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += TickEvent;
+            timer.Start();
+        }
+
+        private void TickEvent(object sender, EventArgs e)
+        {
+            DateTime currentTime = DateTime.Now;
+            LocalClockTB.Text = currentTime.ToString(@"G");
+            NYClockTB.Text = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(currentTime, TimeZoneInfo.Local.Id, "Eastern Standard Time").ToString(@"T");
         }
 
         private void ChangeColor(double n)
@@ -82,11 +98,15 @@ namespace CipherStocks
                 return;
             }
 
+
+
             // Rows 4-5
             StockNameTB.Text = company.ShortName;
             StockPriceTB.Text = company.RegularMarketPrice.ToString("C2");
             PriceChangeTB.Text = company.RegularMarketChange.ToString("C2");
             PriceChangePercentTB.Text = company.RegularMarketChangePercent.ToString("N2") + '%';
+            ExchangeTB.Text = company.ExchangeTimezoneName;
+            
 
             // Column 0
             OpenTB.Text = String.Format("{0:n}", company[Field.RegularMarketOpen].ToString("C2"));
