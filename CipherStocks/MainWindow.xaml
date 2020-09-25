@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CipherStocks"
         FocusManager.FocusedElement="{Binding ElementName=StockTBx}"
         mc:Ignorable="d"
-        Title="Cipher Stock" Height="570" Width="430"
+        Title="Cipher Stock" Height="570" Width="450"
         >
     <Window.Resources>
         <Style TargetType="{x:Type Control}" x:Key="LabelTemplate">
@@ -45,6 +45,26 @@
                     <Setter Property="CornerRadius" Value="10" />
                 </Style>
             </Style.Resources>
+        </Style>
+        
+        <!-- Button styling key: Style="{StaticResource FadeOutButtom}" -->
+        <Style x:Key="FadeOutButton" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Control.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard >
+                            <DoubleAnimation Duration="0:0:1" To="1" Storyboard.TargetProperty="Opacity"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Control.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard >
+                            <DoubleAnimation Duration="0:0:1" To="0.1" Storyboard.TargetProperty="Opacity"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
         </Style>
     </Window.Resources>
     <Border Padding="10">
@@ -105,7 +125,7 @@
                     <TextBlock x:Name="StockPriceTB" Grid.Row="6" Grid.Column="0" FontSize="20" />
                     <TextBlock x:Name="PriceChangeTB" Grid.Row="6" Grid.Column="0" Margin="20 0 10 0" FontSize="20" />
                     <TextBlock x:Name="PriceChangePercentTB" Grid.Row="6" Grid.Column="0" FontSize="20" />
-                    <TextBlock x:Name="ExchangeTB" Grid.Row="6" Grid.Column="0" FontSize="20" />
+                    <TextBlock x:Name="ExchangeTB" Grid.Row="6" Grid.Column="0" Margin="20 0" FontSize="20" />
                 </StackPanel>
 
                 <!-- Rows 7-16 -->
@@ -138,9 +158,16 @@
                 <!-- Row 16 -->
 
             </Grid>
-            <DataGrid x:Name="StockListDG" AlternatingRowBackground="AliceBlue" Margin="0 380 0 0" 
-                        VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid x:Name="StockListDG" AlternatingRowBackground="AliceBlue" Margin="0 350 0 0" 
+                      VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" AllowDrop="True" SelectionMode="Extended">
                 <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="10">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="deleteRow" Content="❌" FontSize="9" Foreground="Red" Opacity=".1" Style="{StaticResource FadeOutButton}" Click="deleteRow_Click" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Symbol" Binding="{Binding Symbol}" Width="*" />
                     <DataGridTextColumn Header="Company" Binding="{Binding Company}" Width="*" />
                     <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="*" />
@@ -148,7 +175,6 @@
                     <DataGridTextColumn Header="Volume" Binding="{Binding RegularMarketVolume, StringFormat={}{0:N0}}" Width="*" />
                     <DataGridTextColumn Header="Gain %" Binding="{Binding RegularMarketChangePercent, StringFormat={}{0}%}" Width="*" />
                     <DataGridTextColumn Header="Dividend" Binding="{Binding TrailingAnnualDividendYield}" Width="*" />
-                    <DataGridTextColumn Header="Dividend Date" Binding="{Binding DividendDate}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" VerticalAlignment="Bottom">

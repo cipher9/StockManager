@@ -5,7 +5,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -15,9 +14,12 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using YahooFinanceApi;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace CipherStocks
 {
+    public delegate Point GetDragDropPosition(IInputElement theElement);
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -62,22 +64,22 @@ namespace CipherStocks
         {
             if(isCurrency == true)
             {
-                if(number >= 1000000000000)
-                    return (number/1000000000000).ToString("C2") + "T";
-                if(number >= 1000000000)
-                    return (number/1000000000).ToString("C2") + "B";
-                if(number >= 1000000)
-                    return (number/1000000).ToString("C2") + "M";
+                if(number >= Numbers.Trillion)
+                    return (number/Numbers.Trillion).ToString("C2") + "T";
+                if(number >= Numbers.Billion)
+                    return (number/Numbers.Billion).ToString("C2") + "B";
+                if(number >= Numbers.Million)
+                    return (number/Numbers.Million).ToString("C2") + "M";
                 return number.ToString("C2");
             }
             else
             {
-                if(number >= 1000000000000)
-                    return (number/1000000000000).ToString("N0") + "T";
-                if(number >= 1000000000)
-                    return (number/1000000000).ToString("N0") + "B";
-                if(number >= 1000000)
-                    return (number/1000000).ToString("N0") + "M";
+                if(number >= Numbers.Trillion)
+                    return (number/Numbers.Trillion).ToString("N0") + "T";
+                if(number >= Numbers.Billion)
+                    return (number/Numbers.Billion).ToString("N0") + "B";
+                if(number >= Numbers.Million)
+                    return (number/Numbers.Million).ToString("N0") + "M";
                 return number.ToString("N0");
             }
         }
@@ -98,16 +100,13 @@ namespace CipherStocks
                 return;
             }
 
-
-
             // Rows 4-5
             StockNameTB.Text = company.ShortName;
             StockPriceTB.Text = company.RegularMarketPrice.ToString("C2");
             PriceChangeTB.Text = company.RegularMarketChange.ToString("C2");
             PriceChangePercentTB.Text = company.RegularMarketChangePercent.ToString("N2") + '%';
-            ExchangeTB.Text = company.ExchangeTimezoneName;
+            ExchangeTB.Text = company.FullExchangeName;
             
-
             // Column 0
             OpenTB.Text = String.Format("{0:n}", company[Field.RegularMarketOpen].ToString("C2"));
             TodayHighTB.Text = company[Field.RegularMarketDayHigh].ToString("C2");
@@ -226,6 +225,14 @@ namespace CipherStocks
             }
             StockList.Add(stock);
             GetData(stock);
+        }
+
+        private void deleteRow_Click(object sender, RoutedEventArgs e)
+        {
+            string stock = (StockListDG.SelectedCells[1].Column.GetCellContent(StockListDG.SelectedItem) as TextBlock).Text;
+            StockList.Remove(stock);
+
+            StockListDG.Items.RemoveAt(StockListDG.SelectedIndex);
         }
     }
 }
