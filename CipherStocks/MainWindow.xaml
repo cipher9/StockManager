@@ -46,7 +46,7 @@
                 </Style>
             </Style.Resources>
         </Style>
-        
+
         <!-- Button styling key: Style="{StaticResource FadeOutButtom}" -->
         <Style x:Key="FadeOutButton" TargetType="{x:Type Button}">
             <Style.Triggers>
@@ -66,102 +66,121 @@
                 </EventTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="ColumnHeaderStyle1" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="FontSize" Value="9" />
+            <Setter Property="Foreground" Value="Red" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Opacity" Value=".5" />
+
+        </Style>
     </Window.Resources>
     <Border Padding="10">
         <Grid>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110" />
-                    <ColumnDefinition Width="50" />
-                    <ColumnDefinition Width="110" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="150" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="30" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="30" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-                <!-- Row 1 -->
-                
-                    
-                <!-- Row 2 -->
-                <Label Content="Stock Symbol" Grid.Row="2" Grid.Column="0" Style="{StaticResource LabelTemplate}" />
+            <!-- Row 1 -->
+            
 
-                <!-- Row 3 -->
-                <TextBox Name="StockTBx" Margin="0 0 0 10" Grid.Row="3" TabIndex="0" 
+            <!-- Row 2 -->
+            <Label Content="Stock Symbol" Grid.Row="2" Grid.Column="0" Style="{StaticResource LabelTemplate}" />
+
+            <!-- Row 3 -->
+            <TextBox Name="StockTBx" Margin="0 0 0 10" Grid.Row="3" TabIndex="0" 
                      Tag="Stock Symbol" KeyDown="StockTBx_KeyDown" />
 
-                <!-- Row 4 -->
-                <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal">
-                    <Button x:Name="SearchButton" Content="🔍"  Margin="0 0 10 0" Height="25" Width="50" HorizontalAlignment="Left"
+            <!-- Row 4 -->
+            <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Button x:Name="SearchButton" Content="🔍"  Margin="0 0 10 0" Height="25" Width="50" HorizontalAlignment="Left"
                     Grid.Row="4" Grid.Column="0" TabIndex="1" Click="SearchButton_Click" Style="{StaticResource RoundCorner}" />
-                    <Button x:Name="AddButton" Content="➕" Grid.Row="4" Grid.Column="0" Width="50" TabIndex="2" 
+                <Button x:Name="AddButton" Content="➕" Grid.Row="4" Grid.Column="0" Width="50" TabIndex="2" 
                         Style="{StaticResource RoundCorner}" Click="AddButton_Click" />
-                </StackPanel>
+            </StackPanel>
 
-                <!-- Row 5 -->
-                <TextBlock x:Name="StockNameTB" Grid.Row="5" Grid.Column="0" FontSize="26" Grid.ColumnSpan="4" />
+            <!-- Row 5 -->
+            <TextBlock x:Name="StockNameTB" Grid.Row="5" Grid.Column="0" FontSize="26" Grid.ColumnSpan="4" />
 
-                <!-- Row 6 -->
-                <StackPanel Grid.Row="6" Grid.ColumnSpan="4" Orientation="Horizontal">
-                    <TextBlock x:Name="StockPriceTB" Grid.Row="6" Grid.Column="0" FontSize="20" />
-                    <TextBlock x:Name="PriceChangeTB" Grid.Row="6" Grid.Column="0" Margin="20 0 10 0" FontSize="20" />
-                    <TextBlock x:Name="PriceChangePercentTB" Grid.Row="6" Grid.Column="0" FontSize="20" />
-                    <TextBlock x:Name="ExchangeTB" Grid.Row="6" Grid.Column="0" Margin="20 0" FontSize="20" />
-                </StackPanel>
+            <!-- Row 6 -->
+            <StackPanel Grid.Row="6" Grid.ColumnSpan="6" Orientation="Horizontal">
+                <TextBlock x:Name="StockPriceTB" Grid.Row="6" Grid.Column="0" FontSize="20" />
+                <TextBlock x:Name="PriceChangeTB" Grid.Row="6" Grid.Column="0" Margin="20 0 10 0" FontSize="20" />
+                <TextBlock x:Name="PriceChangePercentTB" Grid.Row="6" Grid.Column="0" FontSize="20" />
+                <TextBlock x:Name="ExchangeTB" Grid.Row="6" Grid.Column="0" Margin="20 0" FontSize="20" />
+            </StackPanel>
 
-                <!-- Rows 7-16 -->
-                <!-- Column 0 -->
-                <Label Content="Open" Grid.Row="7" Grid.Column="0" Style="{StaticResource LabelTemplate}" />
-                <Label Content="Today's High" Grid.Row="9" Grid.Column="0" Style="{StaticResource LabelTemplate}" />
-                <Label Content="Today's Low" Grid.Row="11" Grid.Column="0" Style="{StaticResource LabelTemplate}" />
-                <Label Content="52 Week High" Grid.Row="13" Grid.Column="0" Style="{StaticResource LabelTemplate}" />
-                <Label Content="52 Week Low" Grid.Row="15" Grid.Column="0" Style="{StaticResource LabelTemplate}" />
+            <!-- Rows 7-16 -->
+            <!-- Column 0 -->
+            <Label Content="Open" Grid.Row="7" Grid.Column="0" Style="{StaticResource LabelTemplate}" />
+            <Label Content="Today's High" Grid.Row="9" Grid.Column="0" Style="{StaticResource LabelTemplate}" />
+            <Label Content="Today's Low" Grid.Row="11" Grid.Column="0" Style="{StaticResource LabelTemplate}" />
+            <Label Content="52 Week High" Grid.Row="13" Grid.Column="0" Style="{StaticResource LabelTemplate}" />
+            <Label Content="52 Week Low" Grid.Row="15" Grid.Column="0" Style="{StaticResource LabelTemplate}" />
 
-                <TextBlock x:Name="OpenTB" Grid.Row="8" Grid.Column="0" Style="{StaticResource TBTemplate}" />
-                <TextBlock x:Name="TodayHighTB" Grid.Row="10" Grid.Column="0" Style="{StaticResource TBTemplate}" />
-                <TextBlock x:Name="TodayLowTB" Grid.Row="12" Grid.Column="0" Style="{StaticResource TBTemplate}" />
-                <TextBlock x:Name="FTWeekHighTB" Grid.Row="14" Grid.Column="0" Style="{StaticResource TBTemplate}" />
-                <TextBlock x:Name="FTWeekLowTB" Grid.Row="16" Grid.Column="0" Style="{StaticResource TBTemplate}" />
+            <TextBlock x:Name="OpenTB" Grid.Row="8" Grid.Column="0" Style="{StaticResource TBTemplate}" />
+            <TextBlock x:Name="TodayHighTB" Grid.Row="10" Grid.Column="0" Style="{StaticResource TBTemplate}" />
+            <TextBlock x:Name="TodayLowTB" Grid.Row="12" Grid.Column="0" Style="{StaticResource TBTemplate}" />
+            <TextBlock x:Name="FTWeekHighTB" Grid.Row="14" Grid.Column="0" Style="{StaticResource TBTemplate}" />
+            <TextBlock x:Name="FTWeekLowTB" Grid.Row="16" Grid.Column="0" Style="{StaticResource TBTemplate}" />
 
-                <!-- Column 2 -->
-                <Label Content="Volume" Grid.Row="7" Grid.Column="2" Style="{StaticResource LabelTemplate}" />
-                <Label Content="Average Volume" Grid.Row="9" Grid.Column="2" Style="{StaticResource LabelTemplate}" />
-                <Label Content="Market Cap" Grid.Row="11" Grid.Column="2" Style="{StaticResource LabelTemplate}" />
-                <Label Content="P/E Ratio" Grid.Row="13" Grid.Column="2" Style="{StaticResource LabelTemplate}" />
-                <Label Content="Div/Yield" Grid.Row="15" Grid.Column="2" Style="{StaticResource LabelTemplate}" />
+            <!-- Column 2 -->
+            <Label Content="Volume" Grid.Row="7" Grid.Column="2" Style="{StaticResource LabelTemplate}" />
+            <Label Content="Average Volume" Grid.Row="9" Grid.Column="2" Style="{StaticResource LabelTemplate}" />
+            <Label Content="Market Cap" Grid.Row="11" Grid.Column="2" Style="{StaticResource LabelTemplate}" />
+            <Label Content="P/E Ratio" Grid.Row="13" Grid.Column="2" Style="{StaticResource LabelTemplate}" />
+            <Label Content="Div/Yield" Grid.Row="15" Grid.Column="2" Style="{StaticResource LabelTemplate}" />
 
-                <TextBlock x:Name="VolumeTB" Grid.Row="8" Grid.Column="2" Style="{StaticResource TBTemplate}" />
-                <TextBlock x:Name="AverageVolTB" Grid.Row="10" Grid.Column="2" Style="{StaticResource TBTemplate}" />
-                <TextBlock x:Name="MarketCapTB" Grid.Row="12" Grid.Column="2" Style="{StaticResource TBTemplate}" />
-                <TextBlock x:Name="PERatioTB" Grid.Row="14" Grid.Column="2" Style="{StaticResource TBTemplate}" />
-                <TextBlock x:Name="DivTB" Grid.Row="16" Grid.Column="2" Style="{StaticResource TBTemplate}" />
+            <TextBlock x:Name="VolumeTB" Grid.Row="8" Grid.Column="2" Style="{StaticResource TBTemplate}" />
+            <TextBlock x:Name="AverageVolTB" Grid.Row="10" Grid.Column="2" Style="{StaticResource TBTemplate}" />
+            <TextBlock x:Name="MarketCapTB" Grid.Row="12" Grid.Column="2" Style="{StaticResource TBTemplate}" />
+            <TextBlock x:Name="PERatioTB" Grid.Row="14" Grid.Column="2" Style="{StaticResource TBTemplate}" />
+            <TextBlock x:Name="DivTB" Grid.Row="16" Grid.Column="2" Style="{StaticResource TBTemplate}" />
+            
+            <!-- Column 4 -->
+            <Label Content="Price to Book" Grid.Row="7" Grid.Column="4" Style="{StaticResource LabelTemplate}" />
+            <Label Content="Book Value/Share" Grid.Row="9" Grid.Column="4" Style="{StaticResource LabelTemplate}" />
+            <Label Content="50-Day Change" Grid.Row="11" Grid.Column="4" Style="{StaticResource LabelTemplate}" />
+            <Label Content="50-Day % Change" Grid.Row="13" Grid.Column="4" Style="{StaticResource LabelTemplate}" />
+            <Label Content="EPS" Grid.Row="15" Grid.Column="4" Style="{StaticResource LabelTemplate}" />
 
-                <!-- Row 16 -->
+            <TextBlock x:Name="PriceToBookTB" Grid.Row="8" Grid.Column="4" Style="{StaticResource TBTemplate}" />
+            <TextBlock x:Name="BookValueTB" Grid.Row="10" Grid.Column="4" Style="{StaticResource TBTemplate}" />
+            <TextBlock x:Name="FiftyDayChangeTB" Grid.Row="12" Grid.Column="4" Style="{StaticResource TBTemplate}" />
+            <TextBlock x:Name="FiftyDayPercentChangeTB" Grid.Row="14" Grid.Column="4" Style="{StaticResource TBTemplate}" />
+            <TextBlock x:Name="EPSTB" Grid.Row="16" Grid.Column="4" Style="{StaticResource TBTemplate}" />
 
-            </Grid>
-            <DataGrid x:Name="StockListDG" AlternatingRowBackground="AliceBlue" Margin="0 350 0 0" 
-                      VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" AllowDrop="True" SelectionMode="Extended">
+            <!-- Row 17 -->
+            <DataGrid x:Name="StockListDG" AlternatingRowBackground="AliceBlue" Grid.Row="17" Grid.ColumnSpan="6" AutoGenerateColumns="False" 
+                      IsReadOnly="True" AllowDrop="True" SelectionMode="Extended" Margin="0 0 0 0">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="10">
+                    <DataGridTemplateColumn Width="10" Header="❌" HeaderStyle="{StaticResource ColumnHeaderStyle1}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button x:Name="deleteRow" Content="❌" FontSize="9" Foreground="Red" Opacity=".1" Style="{StaticResource FadeOutButton}" Click="deleteRow_Click" />
@@ -177,13 +196,14 @@
                     <DataGridTextColumn Header="Dividend" Binding="{Binding TrailingAnnualDividendYield}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
-            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" VerticalAlignment="Bottom">
+            
+            <!-- Row 18 -->
+            <StackPanel Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="6" Orientation="Horizontal" VerticalAlignment="Bottom">
                 <TextBlock Text="Local Time: " />
                 <TextBlock x:Name="LocalClockTB" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" />
                 <TextBlock Text="New York Time: " Margin="10 0 0 0" />
                 <TextBlock x:Name="NYClockTB" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" />
             </StackPanel>
         </Grid>
-       
     </Border>
 </Window>

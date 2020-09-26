@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using YahooFinanceApi;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 
 namespace CipherStocks
 {
@@ -60,30 +59,6 @@ namespace CipherStocks
             }
         }
 
-        public static string FormatNumber(decimal number, bool isCurrency)
-        {
-            if(isCurrency == true)
-            {
-                if(number >= Numbers.Trillion)
-                    return (number/Numbers.Trillion).ToString("C2") + "T";
-                if(number >= Numbers.Billion)
-                    return (number/Numbers.Billion).ToString("C2") + "B";
-                if(number >= Numbers.Million)
-                    return (number/Numbers.Million).ToString("C2") + "M";
-                return number.ToString("C2");
-            }
-            else
-            {
-                if(number >= Numbers.Trillion)
-                    return (number/Numbers.Trillion).ToString("N0") + "T";
-                if(number >= Numbers.Billion)
-                    return (number/Numbers.Billion).ToString("N0") + "B";
-                if(number >= Numbers.Million)
-                    return (number/Numbers.Million).ToString("N0") + "M";
-                return number.ToString("N0");
-            }
-        }
-
         private async void StockData(string stock)
         {
             var securities = await Yahoo.Symbols(stock).QueryAsync();
@@ -96,7 +71,7 @@ namespace CipherStocks
             }
             catch (Exception)
             {
-                MessageBox.Show("The stock entered was not found");
+                MessageBox.Show($"The stock symbol \"{stock}\" was not found");
                 return;
             }
 
@@ -115,17 +90,17 @@ namespace CipherStocks
             FTWeekLowTB.Text = company[Field.FiftyTwoWeekLow].ToString("C2");
 
             // Column 2
-            VolumeTB.Text = FormatNumber(company[Field.RegularMarketVolume], false);
+            VolumeTB.Text = Numbers.FormatNumber(company[Field.RegularMarketVolume], false);
             try
             {
-                AverageVolTB.Text = FormatNumber(company[Field.AverageDailyVolume10Day], false);
+                AverageVolTB.Text = Numbers.FormatNumber(company[Field.AverageDailyVolume10Day], false);
             }
             catch(KeyNotFoundException)
             {
                 AverageVolTB.Text = "N/A";
             }
 
-            MarketCapTB.Text = FormatNumber(company[Field.MarketCap], true);
+            MarketCapTB.Text = Numbers.FormatNumber(company[Field.MarketCap], true);
 
             try
             {
@@ -144,6 +119,13 @@ namespace CipherStocks
             {
                 DivTB.Text = "N/A";
             }
+
+            // Column 3
+            PriceToBookTB.Text = company[Field.PriceToBook].ToString("N2");
+            BookValueTB.Text = company[Field.BookValue].ToString("C2");
+            FiftyDayChangeTB.Text = company[Field.FiftyDayAverageChange].ToString("C2");
+            FiftyDayPercentChangeTB.Text = company[Field.FiftyDayAverageChangePercent].ToString("P2");
+            EPSTB.Text = company[Field.EpsTrailingTwelveMonths].ToString("C2");
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
