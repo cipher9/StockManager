@@ -79,7 +79,7 @@ namespace CipherStocks
             StockNameTB.Text = company.ShortName;
             StockPriceTB.Text = company.RegularMarketPrice.ToString("C2");
             PriceChangeTB.Text = company.RegularMarketChange.ToString("C2");
-            PriceChangePercentTB.Text = company.RegularMarketChangePercent.ToString("N2") + '%';
+            PriceChangePercentTB.Text = $"({company.RegularMarketChangePercent.ToString("N2")}%)";
             ExchangeTB.Text = company.FullExchangeName;
             
             // Column 0
@@ -110,10 +110,10 @@ namespace CipherStocks
             {
                 PERatioTB.Text = "N/A";
             }
-
+            
             try
             {
-                DivTB.Text = company[Field.TrailingAnnualDividendYield].ToString("N2");
+                DivTB.Text = company[Field.TrailingAnnualDividendYield].ToString("P2");
             }
             catch(KeyNotFoundException)
             {
@@ -121,11 +121,35 @@ namespace CipherStocks
             }
 
             // Column 3
-            PriceToBookTB.Text = company[Field.PriceToBook].ToString("N2");
-            BookValueTB.Text = company[Field.BookValue].ToString("C2");
+            try
+            {
+                PriceToBookTB.Text = company[Field.PriceToBook].ToString("N2");
+            }
+            catch(KeyNotFoundException)
+            {
+                PriceToBookTB.Text = "N/A";
+            }
+            
+            try
+            {
+                BookValueTB.Text = company[Field.BookValue].ToString("C2");
+            }
+            catch(KeyNotFoundException)
+            {
+                BookValueTB.Text = "N/A";
+            }
+            
             FiftyDayChangeTB.Text = company[Field.FiftyDayAverageChange].ToString("C2");
             FiftyDayPercentChangeTB.Text = company[Field.FiftyDayAverageChangePercent].ToString("P2");
-            EPSTB.Text = company[Field.EpsTrailingTwelveMonths].ToString("C2");
+
+            try
+            {
+                EPSTB.Text = company[Field.EpsTrailingTwelveMonths].ToString("C2");
+            }
+            catch(KeyNotFoundException)
+            {
+                EPSTB.Text = "N/A";
+            }
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
